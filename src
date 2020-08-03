@@ -1,0 +1,164 @@
+----->house analysis<------ from kaggle notebook
+
+# %% [code]
+# This Python 3 environment comes with many helpful analytics libraries installed
+# It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python
+# For example, here's several helpful packages to load
+
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+
+# Input data files are available in the read-only "../input/" directory
+# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+
+# You can write up to 5GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
+# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
+
+# %% [code]
+import numpy as np 
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# %% [code]
+df=pd.read_csv('/kaggle/input/traincsv/train.csv')
+
+# %% [code]
+df.head()
+
+# %% [code]
+df.isnull().sum()
+
+# %% [code]
+df['MSZoning'].value_counts()
+
+# %% [code]
+sns.heatmap(df.isnull(),yticklabels=False,cbar=False)
+
+# %% [code]
+df.shape
+
+# %% [code]
+df.info()
+
+# %% [code]
+df['LotFrontage']=df['LotFrontage'].fillna(df['LotFrontage'].mean())
+
+# %% [code]
+df.drop(['Alley'],axis=1,inplace=True)
+
+# %% [code]
+df.drop(['Fence'],axis=1,inplace=True)
+
+# %% [code]
+df.drop(['FireplaceQu'],axis=1,inplace=True)
+
+# %% [code]
+df.drop(['PoolQC'],axis=1,inplace=True)
+
+# %% [code]
+df.drop(['MiscFeature'],axis=1,inplace=True)
+
+# %% [code]
+sns.heatmap(df.isnull(),yticklabels=False,cbar=False)
+
+
+
+----->airport data<------ from kaggle notebook
+
+# %% [code]
+# This Python 3 environment comes with many helpful analytics libraries installed
+# It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python
+# For example, here's several helpful packages to load
+
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+
+# Input data files are available in the read-only "../input/" directory
+# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+
+# You can write up to 5GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
+# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
+
+# %% [code]
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+%pylab inline
+
+# %% [code]
+df = pd.read_csv('/kaggle/input/airports2/airports.csv')
+
+# %% [code]
+df.tail()
+
+
+# %% [code]
+df.head()
+
+# %% [code]
+df.tail()
+
+# %% [code]
+def count_rows(rows):
+    return len(rows)
+
+by_city = df.groupby('CITY').apply(count_rows)
+by_city
+
+# %% [code]
+def count_rows(rows):
+    return len(rows)
+
+by_state = df.groupby('STATE').apply(count_rows)
+by_state
+
+# %% [code]
+def count_rows(rows):
+    return len(rows)
+
+by_airport = df.groupby('AIRPORT').apply(count_rows)
+by_airport
+
+# %% [code]
+def count_rows(rows):
+    return len(rows)
+
+by_country = df.groupby('COUNTRY').apply(count_rows)
+by_country
+
+# %% [code]
+by_city_sorted = by_city.sort_values()
+by_city_sorted
+
+# %% [code]
+hist(df['LATITUDE'], bins=100, range = (20, 80))
+
+# %% [code]
+hist(df['LONGITUDE'], bins=100, range = (-160, -30));
+
+# %% [code]
+hist(df['LONGITUDE'], bins=100, range = (-160, -30), color='g', alpha=.5, label = 'longitude')
+grid()
+legend(loc='upper left')
+twiny()
+hist(df['LATITUDE'], bins=100, range = (20, 80), color='r', alpha=.5, label = 'latitude')
+legend(loc='best')
+;
+
+# %% [code]
+
+figure(figsize=(30, 30))
+plot(df['LONGITUDE'], df['LATITUDE'], '.', ms=30, alpha=.75)
+xlim(-70, -130)
+ylim(20, 40)
